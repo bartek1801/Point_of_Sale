@@ -4,10 +4,7 @@ package com.lech.bartlomiej;
 import com.lech.bartlomiej.devices.*;
 import com.lech.bartlomiej.infrastructure.InMemoryProductRepository;
 import com.lech.bartlomiej.infrastructure.ProductService;
-import com.lech.bartlomiej.model.Product;
-import com.lech.bartlomiej.model.ProductRepository;
-import com.lech.bartlomiej.model.Receipt;
-import com.lech.bartlomiej.model.ReceiptLine;
+import com.lech.bartlomiej.model.*;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -15,9 +12,6 @@ import java.util.Optional;
 public class Application {
 
     private static final String EXIT = "exit";
-    private static final String PRODUCT_NOT_FOUND = "Product not found";
-    private static final String INVALID_BAR_CODE = "Invalid bar-code";
-    private static final String SCAN_YOUR_PRODUCT = ">> Scan your product <<";
 
     private static OutputDevice lcdDevice;
     private static OutputDevice printer;
@@ -31,11 +25,11 @@ public class Application {
         Receipt receipt = new Receipt();
 
         while (true) {
-            System.out.println(SCAN_YOUR_PRODUCT);
+            lcdDevice.print(Statement.SCAN_YOUR_PRODUCT.name());
             String inputValue = barCodeScanner.scan();
 
             if (inputValue.isEmpty()) {
-                lcdDevice.print(INVALID_BAR_CODE);
+                lcdDevice.print(Statement.INVALID_BAR_CODE.name());
                 continue;
             }
 
@@ -45,7 +39,7 @@ public class Application {
                 receipt.addReceiptLine(optionalProduct.get());
                 lcdDevice.print(new ReceiptLine(optionalProduct.get())); // może niech drukuje ReceiptLine ???
             } else if (!inputValue.equals(EXIT))
-                lcdDevice.print(PRODUCT_NOT_FOUND);
+                lcdDevice.print(Statement.PRODUCT_NOT_FOUND.name());
 
             if (inputValue.equals(EXIT)) {
                 BigDecimal totalSum = receipt.calculateTotalSum();
@@ -54,9 +48,7 @@ public class Application {
                 printOnScreen(totalSum);
                 receipt = new Receipt();
             }
-
         }
-
     }
 
     private static void printOnScreen(BigDecimal totalSum) {
