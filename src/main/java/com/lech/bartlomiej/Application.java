@@ -11,7 +11,6 @@ import com.lech.bartlomiej.model.ReceiptLine;
 
 import java.math.BigDecimal;
 import java.util.Optional;
-import java.util.Scanner;
 
 public class Application {
 
@@ -51,15 +50,21 @@ public class Application {
             if (inputValue.equals(EXIT)) {
                 BigDecimal totalSum = receipt.calculateTotalSum();
                 receipt.addTotalSum(totalSum);
-
-                receipt.getReceiptLines().forEach(receiptLine -> printer.print(receiptLine));
-                lcdDevice.print(new ReceiptLine("Total Sum", totalSum));
-
+                printReceipt(receipt);
+                printOnScreen(totalSum);
                 receipt = new Receipt();
             }
 
         }
 
+    }
+
+    private static void printOnScreen(BigDecimal totalSum) {
+        lcdDevice.print(new ReceiptLine("Total Sum", totalSum));
+    }
+
+    private static void printReceipt(Receipt receipt) {
+        receipt.getReceiptLines().forEach(receiptLine -> printer.print(receiptLine));
     }
 
 
