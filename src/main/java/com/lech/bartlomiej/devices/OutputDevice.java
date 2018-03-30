@@ -1,4 +1,4 @@
-package com.lech.bartlomiej.output;
+package com.lech.bartlomiej.devices;
 
 
 import com.lech.bartlomiej.model.ReceiptLine;

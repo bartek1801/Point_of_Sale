@@ -1,15 +1,13 @@
 package com.lech.bartlomiej;
 
 
+import com.lech.bartlomiej.devices.*;
 import com.lech.bartlomiej.infrastructure.InMemoryProductRepository;
 import com.lech.bartlomiej.infrastructure.ProductService;
 import com.lech.bartlomiej.model.Product;
 import com.lech.bartlomiej.model.ProductRepository;
 import com.lech.bartlomiej.model.Receipt;
 import com.lech.bartlomiej.model.ReceiptLine;
-import com.lech.bartlomiej.output.LCDDevice;
-import com.lech.bartlomiej.output.OutputDevice;
-import com.lech.bartlomiej.output.PrinterDevice;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -20,11 +18,11 @@ public class Application {
     private static final String EXIT = "exit";
     private static final String PRODUCT_NOT_FOUND = "Product not found";
     private static final String INVALID_BAR_CODE = "Invalid bar-code";
+    private static final String SCAN_YOUR_PRODUCT = ">> Scan your product <<";
 
-    private static Scanner scanner = new Scanner(System.in);
-
-    private static OutputDevice lcdDevice = new LCDDevice();
-    private static OutputDevice printer = new PrinterDevice();
+    private static OutputDevice lcdDevice;
+    private static OutputDevice printer;
+    private static InputDevice barCodeScanner;
 
     private static ProductService productService;
 
@@ -34,8 +32,8 @@ public class Application {
         Receipt receipt = new Receipt();
 
         while (true) {
-            System.out.println(">> Scan your product <<");
-            String inputValue = scanner.nextLine();
+            System.out.println(SCAN_YOUR_PRODUCT);
+            String inputValue = barCodeScanner.scan();
 
             if (inputValue.isEmpty()) {
                 lcdDevice.print(INVALID_BAR_CODE);
@@ -66,6 +64,9 @@ public class Application {
 
 
     private static void init() {
+        lcdDevice = new LCDDevice();
+        printer = new PrinterDevice();
+        barCodeScanner = new BarCodeScanner();
         ProductRepository productRepository = new InMemoryProductRepository();
         productService = new ProductService(productRepository);
     }
