@@ -10,5 +10,10 @@ public class PrinterDevice implements OutputDevice {
         System.out.println("Printer: " + receiptLine.toString());
     }
 
+    @Override
+    public void print(String message) {
+        System.out.println("Printer: " + message);
+    }
+
 
 }

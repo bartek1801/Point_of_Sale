@@ -17,11 +17,11 @@ public class Application {
     private static InputDevice barCodeScanner;
 
     private static ScanService scanService;
+    private static Receipt receipt;
 
     public static void main(String[] args) {
 
         init();
-        Receipt receipt = new Receipt();
 
         while (true) {
             lcdDevice.print(Statement.SCAN_YOUR_PRODUCT.name());
@@ -60,6 +60,7 @@ public class Application {
         barCodeScanner = new BarCodeScanner();
         ProductRepository productRepository = new InMemoryProductRepository();
         scanService = new ScanService(productRepository);
+        receipt = new Receipt();
     }
 
 }

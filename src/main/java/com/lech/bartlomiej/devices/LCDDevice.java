@@ -10,6 +10,10 @@ public class LCDDevice implements OutputDevice {
         System.out.println("LCD: " + receiptLine.toString());
     }
 
+    @Override
+    public void print(String message) {
+        System.out.println("LCD: " + message);
+    }
 
 
 }
