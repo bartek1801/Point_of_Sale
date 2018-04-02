@@ -20,8 +20,9 @@ public class Receipt {
         this.receiptLines = receiptLines;
     }
 
-    public void addReceiptLine(Product product) {
-        this.receiptLines.add(new ReceiptLine(product));
+    public void addReceiptLine(ReceiptLine receiptLine) {
+        if (receiptLine.getAmount() != null)
+            this.receiptLines.add(receiptLine);
     }
 
 

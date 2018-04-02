@@ -17,6 +17,10 @@ public class ReceiptLine {
         this.amount = amount;
     }
 
+    public ReceiptLine(Statement productNotFound) {
+        this.name = productNotFound.name();
+    }
+
     public String getName() {
         return name;
     }
@@ -35,6 +39,9 @@ public class ReceiptLine {
 
     @Override
     public String toString() {
-        return name + " ---> " + amount;
+        if (amount != null)
+            return name + " ---> " + amount;
+        else
+            return name;
     }
 }

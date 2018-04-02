@@ -3,11 +3,10 @@ package com.lech.bartlomiej;
 
 import com.lech.bartlomiej.devices.*;
 import com.lech.bartlomiej.infrastructure.InMemoryProductRepository;
-import com.lech.bartlomiej.infrastructure.ProductService;
+import com.lech.bartlomiej.infrastructure.ScanService;
 import com.lech.bartlomiej.model.*;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
 public class Application {
 
@@ -17,7 +16,7 @@ public class Application {
     private static OutputDevice printer;
     private static InputDevice barCodeScanner;
 
-    private static ProductService productService;
+    private static ScanService scanService;
 
     public static void main(String[] args) {
 
@@ -31,23 +30,18 @@ public class Application {
             if (inputValue.isEmpty()) {
                 lcdDevice.print(Statement.INVALID_BAR_CODE.name());
                 continue;
-            }
-
-            Optional<Product> optionalProduct = productService.scanProduct(inputValue);
-
-            if (optionalProduct.isPresent()) {
-                receipt.addReceiptLine(optionalProduct.get());
-                lcdDevice.print(new ReceiptLine(optionalProduct.get())); // może niech drukuje ReceiptLine ???
-            } else if (!inputValue.equals(EXIT))
-                lcdDevice.print(Statement.PRODUCT_NOT_FOUND.name());
-
-            if (inputValue.equals(EXIT)) {
+            } else if (inputValue.equals(EXIT)) {
                 BigDecimal totalSum = receipt.calculateTotalSum();
                 receipt.addTotalSum(totalSum);
                 printReceipt(receipt);
                 printOnScreen(totalSum);
                 receipt = new Receipt();
+                continue;
             }
+
+            ReceiptLine receiptLine = scanService.scanBarCode(inputValue);
+            receipt.addReceiptLine(receiptLine);
+            lcdDevice.print(receiptLine);
         }
     }
 
@@ -65,7 +59,7 @@ public class Application {
         printer = new PrinterDevice();
         barCodeScanner = new BarCodeScanner();
         ProductRepository productRepository = new InMemoryProductRepository();
-        productService = new ProductService(productRepository);
+        scanService = new ScanService(productRepository);
     }
 
 }

@@ -1,5 +1,7 @@
 import com.lech.bartlomiej.model.Product;
 import com.lech.bartlomiej.model.Receipt;
+import com.lech.bartlomiej.model.ReceiptLine;
+import com.lech.bartlomiej.model.Statement;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,8 +20,8 @@ public class ReceiptTest {
     @Before
     public void setUp(){
         receipt = new Receipt();
-        receipt.addReceiptLine(phoneProd);
-        receipt.addReceiptLine(watchProd);
+        receipt.addReceiptLine(new ReceiptLine(phoneProd));
+        receipt.addReceiptLine(new ReceiptLine(watchProd));
     }
 
     @Test
@@ -50,6 +52,17 @@ public class ReceiptTest {
 
         //then
         assertEquals(3, receipt.getReceiptLines().size());
+
+    }
+
+    @Test
+    public void should_Not_Add_A_ReceiptLine_When_PRODUCT_NOT_FOUND(){
+
+        //when
+        receipt.addReceiptLine(new ReceiptLine(Statement.PRODUCT_NOT_FOUND));
+
+        //then
+        assertEquals(2, receipt.getReceiptLines().size());
 
     }
 
