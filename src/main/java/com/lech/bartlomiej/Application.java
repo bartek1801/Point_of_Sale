@@ -24,13 +24,12 @@ public class Application {
         init();
 
         while (true) {
-            lcdDevice.print(Statement.SCAN_YOUR_PRODUCT.name());
-            String inputValue = barCodeScanner.scan();
+            String inputBarCode = barCodeScanner.scan();
 
-            if (inputValue.isEmpty()) {
+            if (inputBarCode.isEmpty()) {
                 lcdDevice.print(Statement.INVALID_BAR_CODE.name());
                 continue;
-            } else if (inputValue.equals(EXIT)) {
+            } else if (inputBarCode.equals(EXIT)) {
                 BigDecimal totalSum = receipt.calculateTotalSum();
                 receipt.addTotalSum(totalSum);
                 printReceipt(receipt);
@@ -38,8 +37,7 @@ public class Application {
                 receipt = new Receipt();
                 continue;
             }
-
-            ReceiptLine receiptLine = scanService.scanBarCode(inputValue);
+            ReceiptLine receiptLine = scanService.scanBarCode(inputBarCode);
             receipt.addReceiptLine(receiptLine);
             lcdDevice.print(receiptLine);
         }
