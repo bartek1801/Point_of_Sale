@@ -43,4 +43,21 @@ public class Money {
         return String.format("%d.%d %s", cents / 100, cents % 100, currency);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Money money = (Money) o;
+
+        if (cents != null ? !cents.equals(money.cents) : money.cents != null) return false;
+        return currency != null ? currency.equals(money.currency) : money.currency == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = cents != null ? cents.hashCode() : 0;
+        result = 31 * result + (currency != null ? currency.hashCode() : 0);
+        return result;
+    }
 }

@@ -1,6 +1,5 @@
 package com.lech.bartlomiej.model;
 
-import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,14 +25,14 @@ public class Receipt {
     }
 
 
-    public void addTotalSum(BigDecimal totalSum) {
+    public void addTotalSum(Money totalSum) {
         this.receiptLines.add(new ReceiptLine("Total Sum", totalSum));
     }
 
-    public BigDecimal calculateTotalSum() {
+    public Money calculateTotalSum() {
         return this.receiptLines.stream()
                         .map(ReceiptLine::getAmount)
-                        .reduce(BigDecimal.ZERO, BigDecimal::add);
+                        .reduce(Money.ZERO, Money::add);
     }
 
 }

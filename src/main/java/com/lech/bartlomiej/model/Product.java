@@ -1,14 +1,13 @@
 package com.lech.bartlomiej.model;
 
-import java.math.BigDecimal;
 
 public class Product {
 
     private String barcode;
     private String name;
-    private BigDecimal price;
+    private Money price;
 
-    public Product(String barcode, String name, BigDecimal price) {
+    public Product(String barcode, String name, Money price) {
         this.barcode = barcode;
         this.name = name;
         this.price = price;
@@ -30,11 +29,11 @@ public class Product {
         this.name = name;
     }
 
-    public BigDecimal getPrice() {
+    public Money getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Money price) {
         this.price = price;
     }
 

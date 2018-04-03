@@ -6,7 +6,6 @@ import com.lech.bartlomiej.infrastructure.InMemoryProductRepository;
 import com.lech.bartlomiej.infrastructure.ScanService;
 import com.lech.bartlomiej.model.*;
 
-import java.math.BigDecimal;
 
 public class Application {
 
@@ -30,7 +29,7 @@ public class Application {
                 lcdDevice.print(Statement.INVALID_BAR_CODE.name());
                 continue;
             } else if (inputBarCode.equals(EXIT)) {
-                BigDecimal totalSum = receipt.calculateTotalSum();
+                Money totalSum = receipt.calculateTotalSum();
                 receipt.addTotalSum(totalSum);
                 printReceipt(receipt);
                 printOnScreen(totalSum);
@@ -43,7 +42,7 @@ public class Application {
         }
     }
 
-    private static void printOnScreen(BigDecimal totalSum) {
+    private static void printOnScreen(Money totalSum) {
         lcdDevice.print(new ReceiptLine("Total Sum", totalSum));
     }
 

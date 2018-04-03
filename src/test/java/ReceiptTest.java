@@ -1,7 +1,4 @@
-import com.lech.bartlomiej.model.Product;
-import com.lech.bartlomiej.model.Receipt;
-import com.lech.bartlomiej.model.ReceiptLine;
-import com.lech.bartlomiej.model.Statement;
+import com.lech.bartlomiej.model.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,8 +9,8 @@ import static org.junit.Assert.assertTrue;
 
 public class ReceiptTest {
 
-    private Product phoneProd = new Product("100", "Phone", BigDecimal.valueOf(999.99));
-    private Product watchProd = new Product("101", "Watch", BigDecimal.valueOf(1000));
+    private Product phoneProd = new Product("100", "Phone", Money.valueOf(999.99));
+    private Product watchProd = new Product("101", "Watch", Money.valueOf(1000));
 
     private Receipt receipt;
 
@@ -34,10 +31,10 @@ public class ReceiptTest {
     public void should_Calculate_Total_Sum(){
 
         //when
-        BigDecimal totalSum = receipt.calculateTotalSum();
+        Money totalSum = receipt.calculateTotalSum();
 
         //then
-        assertEquals(BigDecimal.valueOf(1999.99), totalSum);
+        assertEquals(Money.valueOf(1999.99), totalSum);
     }
 
 
@@ -45,7 +42,7 @@ public class ReceiptTest {
     public void should_Add_Total_Sum(){
 
         //given
-        BigDecimal totalSum = receipt.calculateTotalSum();
+        Money totalSum = receipt.calculateTotalSum();
 
         //when
         receipt.addTotalSum(totalSum);

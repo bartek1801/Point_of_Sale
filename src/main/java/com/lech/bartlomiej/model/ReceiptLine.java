@@ -1,18 +1,17 @@
 package com.lech.bartlomiej.model;
 
-import java.math.BigDecimal;
 
 public class ReceiptLine {
 
     private String name;
-    private BigDecimal amount;
+    private Money amount;
 
     public ReceiptLine(Product product) {
         this.name = product.getName();
         this.amount = product.getPrice();
     }
 
-    public ReceiptLine(String name, BigDecimal amount) {
+    public ReceiptLine(String name, Money amount) {
         this.name = name;
         this.amount = amount;
     }
@@ -29,11 +28,11 @@ public class ReceiptLine {
         this.name = name;
     }
 
-    public BigDecimal getAmount() {
+    public Money getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(Money amount) {
         this.amount = amount;
     }
 
